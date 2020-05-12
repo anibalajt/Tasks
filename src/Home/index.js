@@ -12,9 +12,15 @@ import {
   SafeAreaView,
 } from 'react-native';
 const {width: Width, height} = Dimensions.get('window');
+import auth from '@react-native-firebase/auth';
+import {useDispatch, useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
+
 const AnimatedView = Animated.createAnimatedComponent(View);
 import Input from '../Components/Input';
 import Tasks from '../Components/Tasks';
+import {addTask} from '../Redux/actions';
+
 import _s_ from '../styles';
 
 const _handleKeyboard = (
@@ -46,14 +52,27 @@ const _handleKeyboard = (
     },
   );
 };
-const Home = ({navigation}) => {
-  const translateY = new Animated.Value(0);
-  
+//get tasks from firebase
+const _getTask = async (dispatch, user) => {
+  const querySnapshot = await firestore()
+    .collection('tasks')
+    .where('uid', '==', user.uid)
+    .get();
+  querySnapshot.forEach((documentSnapshot) => {
+    dispatch(addTask({...documentSnapshot.data(), id: documentSnapshot.id}));
+  });
+};
+const HomeScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const keyboardShowListener = useRef(null);
   const keyboardHideListener = useRef(null);
 
   const [inputTask_ref, setInputTask_ref] = useState(null);
   const [keyboardShow, setKeyboardShow] = useState(false);
+
+  const translateY = new Animated.Value(0);
+
+  const user = useSelector((state) => state.User);
 
   useEffect(() => {
     _handleKeyboard(
@@ -62,11 +81,17 @@ const Home = ({navigation}) => {
       keyboardShowListener,
       keyboardHideListener,
     );
+
+    async function fetchData() {
+      // get tasks from firebase
+      await _getTask(dispatch, user);
+    }
+    fetchData();
     return () => {
       keyboardShowListener.current.remove();
       keyboardHideListener.current.remove();
     };
-  });
+  }, []);
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -76,7 +101,11 @@ const Home = ({navigation}) => {
       <Input setInputTask_ref={setInputTask_ref} keyboardShow={keyboardShow} />
 
       <AnimatedView style={[styles.footer, {transform: [{translateY}]}]}>
-        <TouchableHighlight underlayColor="#1d201f" onPress={() => {}}>
+        <TouchableHighlight
+          underlayColor="#1d201f"
+          onPress={() => {
+            navigation.navigate('Profile');
+          }}>
           <Text style={[_s_.text, styles.textSizeColor]}>&#9776;</Text>
         </TouchableHighlight>
         <TouchableHighlight
@@ -100,7 +129,7 @@ const Home = ({navigation}) => {
   );
 };
 
-export default Home;
+export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

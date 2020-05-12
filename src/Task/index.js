@@ -7,15 +7,35 @@ import {
   TextInput,
   TouchableHighlight,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
+
 import _s_ from '../styles';
 
 import {editTask, deleteTask} from '../Redux/actions';
-const _edtiTask = (dispatch, valueTask) => {
-  dispatch(editTask({...valueTask}));
+//Edit task
+const _edtiTask = (dispatch, {id, ...valueTask}) => {
+  dispatch(editTask({...valueTask, id}));
+  firestore()
+    .collection('tasks')
+    .doc(id)
+    .update({
+      ...valueTask,
+    })
+    .then(() => {
+      console.log('Task updated!');
+    });
 };
+//delete task
 const _deleteTask = (dispatch, id) => {
   dispatch(deleteTask({id}));
+  firestore()
+    .collection('tasks')
+    .doc(id)
+    .delete()
+    .then(() => {
+      console.log('Task deleted!');
+    });
 };
 const Task = ({route, navigation}) => {
   const dispatch = useDispatch();
@@ -25,13 +45,7 @@ const Task = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingHorizontal: 20,
-        }}>
+      <View style={styles.contentNav}>
         <TouchableHighlight
           underlayColor="#1d201f"
           onPress={() => {
@@ -65,8 +79,8 @@ const Task = ({route, navigation}) => {
         }}
         placeholder="New task"
         placeholderTextColor="#ffffff80"
-        onChangeText={(task) => setValueTask({...valueTask, task})}
-        value={valueTask.task}
+        onChangeText={(title) => setValueTask({...valueTask, title})}
+        value={valueTask.title}
       />
       <TextInput
         editable={valueTask.completed ? false : true}
@@ -77,8 +91,8 @@ const Task = ({route, navigation}) => {
           {
             color: '#fff',
             backgroundColor: 'transparent',
-            height: updateHeightInput,
             fontSize: 18,
+            height: updateHeightInput,
           },
         ]}
         onEndEditing={() => {
@@ -105,5 +119,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#212121',
     paddingTop: 20,
     // justifyContent: 'flex-end',
+  },
+  contentNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
 });

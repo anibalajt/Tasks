@@ -1,30 +1,12 @@
 import {taskConstants} from '../constants';
-let DATA = [
-  {
-    id: 1,
-    task: 'task 1',
-    detail: 'First Item',
-  },
-  {
-    id: 2,
-    task: 'task 2',
-    detail: 'Second Item',
-  },
-  {
-    id: 3,
-    task: 'task 3',
-    detail: 'Third Item',
-  },
-];
-let id = 3;
-const Tasks = (state = DATA, action) => {
+
+const Tasks = (state = [], action) => {
   switch (action.type) {
     case taskConstants.TASKS:
       return state;
     case taskConstants.ADD:
       return [
         {
-          id: ++id,
           ...action.data,
         },
         ...state,
@@ -37,6 +19,8 @@ const Tasks = (state = DATA, action) => {
       return state.filter((task) => {
         return task.id === action.data.id ? null : task;
       });
+    case taskConstants.CLEAN:
+      return [];
     default:
       return state;
   }

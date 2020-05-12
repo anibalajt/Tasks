@@ -14,6 +14,10 @@ import {
 import _s_ from './styles';
 import Login from './Login';
 const {width: Width} = Dimensions.get('window');
+import auth, {firebase} from '@react-native-firebase/auth';
+import {useDispatch} from 'react-redux';
+
+import {addUser} from './Redux/actions';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 const _handleKeyboard = (
@@ -40,14 +44,27 @@ const _handleKeyboard = (
       }).start(),
   );
 };
-const Index = ({navigation}) => {
-  const imageHeight = new Animated.Value(Width - 80);
 
+const _isLogging = async (navigation, dispatch) => {
+  //get currentuser Firebase
+  const user = auth().currentUser;
+  if (user) {
+    const {email, uid, refreshToken, displayName} = user._user;
+    //Save user in redux
+    dispatch(addUser({email, uid, refreshToken, displayName}));
+    navigation.replace('Home');
+  }
+};
+const Index = ({navigation}) => {
+  const dispatch = useDispatch();
+  const imageHeight = new Animated.Value(Width - 80);
   const [goLogin, setGoLogin] = useState(false);
   const keyboardShowListener = useRef(null);
   const keyboardHideListener = useRef(null);
 
   useEffect(() => {
+    //if there is a session go home
+    _isLogging(navigation, dispatch);
     _handleKeyboard(imageHeight, keyboardShowListener, keyboardHideListener);
     return () => {
       keyboardShowListener.current.remove();

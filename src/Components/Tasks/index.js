@@ -1,12 +1,14 @@
-import React, {useRef, useState, useEffect, Fragment} from 'react';
+import React, {Fragment} from 'react';
 import {
   View,
   Text,
   TouchableHighlight,
   StyleSheet,
   FlatList,
+  Image,
 } from 'react-native';
 import {useSelector} from 'react-redux';
+
 import Item from '../Item';
 import _s_ from '../../styles';
 
@@ -25,23 +27,46 @@ const _footerCompleted = (tasks, navigation) => {
     </View>
   );
 };
+
 const Tasks = ({navigation}) => {
   const tasks = useSelector((state) => state.Tasks);
   const tasksCompleted = tasks.filter((task) => task.completed);
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={tasks}
-        renderItem={({item}) =>
-          !item.completed && <Item task={item} navigation={navigation} />
-        }
-        keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={_headerList}
-        ListFooterComponent={
-          tasksCompleted.length && _footerCompleted(tasksCompleted, navigation)
-        }
-      />
+    <View
+      style={
+        (styles.container,
+        !tasks.length && {
+          ...StyleSheet.absoluteFill,
+          justifyContent: 'center',
+          alignItems: 'center',
+        })
+      }>
+      {tasks.length ? (
+        <FlatList
+          data={tasks}
+          renderItem={({item, index}) =>
+            !item.completed && (
+              <Item key={index} task={item} navigation={navigation} />
+            )
+          }
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={_headerList}
+          ListFooterComponent={
+            tasksCompleted.length &&
+            _footerCompleted(tasksCompleted, navigation)
+          }
+        />
+      ) : (
+        <Fragment>
+          <Image
+            resizeMode="contain"
+            style={[styles.backgroundHome]}
+            source={require('../../static/img/home1.png')}
+          />
+          <Text style={{color: '#fff', fontSize: 18}}>Anithing to add?</Text>
+        </Fragment>
+      )}
     </View>
   );
 };
@@ -75,5 +100,10 @@ const styles = StyleSheet.create({
     width: 25,
     alignSelf: 'center',
     justifyContent: 'center',
+  },
+  backgroundHome: {
+    width: 200,
+    height: 200,
+    marginBottom: 10,
   },
 });

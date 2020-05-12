@@ -7,18 +7,23 @@ import {
   StyleSheet,
   Keyboard,
 } from 'react-native';
-
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
 
 import {addTask} from '../../Redux/actions';
 
 import _s_ from '../../styles';
 
-const handleChange = (name, value, valueTask, setValueTask) => {
-  setValueTask({...valueTask, [name]: value});
-};
-const _saveTask = (setValueTask, dispatch, valueTask) => {
-  dispatch(addTask({...valueTask}));
+const _saveTask = (user, dispatch, setValueTask, valueTask) => {
+  firestore()
+    .collection('tasks')
+    .add({
+      uid: user.uid,
+      ...valueTask,
+    })
+    .then((resp) => {
+      dispatch(addTask({...valueTask, id: resp.id}));
+    });
   setValueTask({
     task: '',
     detail: '',
@@ -28,13 +33,14 @@ const _saveTask = (setValueTask, dispatch, valueTask) => {
 
 const Input = ({setInputTask_ref, keyboardShow}) => {
   const dispatch = useDispatch();
-  
+  const user = useSelector((state) => state.User);
+
   let inputTask_ref = useRef(null);
-  
+
   const [showDetails, setShowDetails] = useState(false);
   const [updateHeightInput, setUpdateHeightInput] = useState(40);
   const [valueTask, setValueTask] = useState({
-    task: '',
+    title: '',
     detail: '',
   });
 
@@ -64,8 +70,8 @@ const Input = ({setInputTask_ref, keyboardShow}) => {
           inputTask_ref = ref;
           setInputTask_ref(inputTask_ref);
         }}
-        onChangeText={(task) => setValueTask({...valueTask, task})}
-        value={valueTask.task}
+        onChangeText={(title) => setValueTask({...valueTask, title})}
+        value={valueTask.title}
       />
       {showDetails && (
         <TextInput
@@ -99,7 +105,7 @@ const Input = ({setInputTask_ref, keyboardShow}) => {
         <TouchableHighlight
           underlayColor="#1d201f"
           onPress={() => {
-            _saveTask(setValueTask, dispatch, valueTask);
+            _saveTask(user, dispatch, setValueTask, valueTask);
           }}>
           <Text style={(_s_.text, _s_.bodySize, {color: '#fff'})}>Save</Text>
         </TouchableHighlight>

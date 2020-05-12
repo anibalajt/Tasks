@@ -77,6 +77,11 @@ target 'tasks_manager' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  # add pods for desired Firebase products
+  # https://firebase.google.com/docs/ios/setup#available-pods
+  
+  
+
   target 'tasks_managerTests' do
     inherit! :complete
     # Pods for testing

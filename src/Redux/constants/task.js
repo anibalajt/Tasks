@@ -3,4 +3,5 @@ export const taskConstants = {
   ADD: 'ADD_TASK',
   EDIT: 'EDIT_TASK',
   DELETE: 'DELETE_TASK',
+  CLEAN: 'CLEAN',
 };

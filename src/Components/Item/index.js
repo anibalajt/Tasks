@@ -1,16 +1,29 @@
 import React, {Fragment} from 'react';
 import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
+
 import {editTask} from '../../Redux/actions';
 
 import _s_ from '../../styles';
 
 const _completeTask = (dispatch, valueTask) => {
+  //cchange task status local
   dispatch(editTask({...valueTask, completed: !valueTask.completed}));
+  //cchange task status Firebase
+  firestore()
+    .collection('tasks')
+    .doc(valueTask.id)
+    .update({
+      completed: !valueTask.completed,
+    })
+    .then(() => {
+      console.log('Task updated!');
+    });
 };
 const Item = ({task, navigation}) => {
   const dispatch = useDispatch();
- 
+
   return (
     <View style={[styles.item, {flexDirection: 'row', alignItems: 'center'}]}>
       <TouchableHighlight
@@ -42,7 +55,7 @@ const Item = ({task, navigation}) => {
                 textDecorationLine: 'line-through',
               },
             ]}>
-            {task.task}
+            {task.title}
           </Text>
           <Text style={styles.detail} numberOfLines={2}>
             {task.detail}
