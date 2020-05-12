@@ -17,7 +17,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* tasks_managerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* tasks_managerTests.m */; };
-		4C6E14442469821E00F8A2DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C6E14432469821E00F8A2DA /* GoogleService-Info.plist */; };
+		4CE7D272246B006700114AEE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE7D271246B006700114AEE /* GoogleService-Info.plist */; };
 		5BD2B47444E0E4B4E14D9688 /* libPods-tasks_manager-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B556E28EE99243DA3FC8D32 /* libPods-tasks_manager-tvOS.a */; };
 		692BEF23F5D473B02FE5F8F1 /* libPods-tasks_manager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8080D7D4751B8241B11B3A55 /* libPods-tasks_manager.a */; };
 		A5F4C3A6607E1852C7AC8D2B /* libPods-tasks_manager-tasks_managerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12CF28A9566C6C2C470AC36F /* libPods-tasks_manager-tasks_managerTests.a */; };
@@ -60,7 +60,7 @@
 		2D02E4901E0B4A5D006451C7 /* tasks_manager-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tasks_manager-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E730306391F44FB82B2A52 /* Pods-tasks_manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tasks_manager.debug.xcconfig"; path = "Target Support Files/Pods-tasks_manager/Pods-tasks_manager.debug.xcconfig"; sourceTree = "<group>"; };
 		40CF76094B89E928A3661A0A /* Pods-tasks_manager-tasks_managerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tasks_manager-tasks_managerTests.release.xcconfig"; path = "Target Support Files/Pods-tasks_manager-tasks_managerTests/Pods-tasks_manager-tasks_managerTests.release.xcconfig"; sourceTree = "<group>"; };
-		4C6E14432469821E00F8A2DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4CE7D271246B006700114AEE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6D00DFD724397CA3D721D935 /* Pods-tasks_manager-tasks_managerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tasks_manager-tasks_managerTests.debug.xcconfig"; path = "Target Support Files/Pods-tasks_manager-tasks_managerTests/Pods-tasks_manager-tasks_managerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8080D7D4751B8241B11B3A55 /* libPods-tasks_manager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tasks_manager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6FD47816DBD7120F27D91BA /* Pods-tasks_manager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tasks_manager.release.xcconfig"; path = "Target Support Files/Pods-tasks_manager/Pods-tasks_manager.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* tasks_manager */ = {
 			isa = PBXGroup;
 			children = (
+				4CE7D271246B006700114AEE /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -134,7 +135,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				4C6E14432469821E00F8A2DA /* GoogleService-Info.plist */,
 			);
 			name = tasks_manager;
 			sourceTree = "<group>";
@@ -346,7 +346,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				4C6E14442469821E00F8A2DA /* GoogleService-Info.plist in Resources */,
+				4CE7D272246B006700114AEE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
