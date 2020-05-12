@@ -72,6 +72,9 @@ const Input = ({setInputTask_ref, keyboardShow}) => {
         }}
         onChangeText={(title) => setValueTask({...valueTask, title})}
         value={valueTask.title}
+        onSubmitEditing={() => {
+          _saveTask(user, dispatch, setValueTask, valueTask);
+        }}
       />
       {showDetails && (
         <TextInput
